@@ -10,7 +10,7 @@ kaboom({
 });
 
 // Load sprites
-loadRoot('/assets/');
+loadRoot('/assets/sprites/');
 loadSprite('coin', 'coin.png');
 loadSprite('evil-shroom', 'evil-shroom.png');
 loadSprite('brick', 'brick.png');
