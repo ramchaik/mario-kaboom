@@ -16,6 +16,7 @@ kaboom({
 });
 
 // Load sprites
+// Level 1 related sprites
 loadRoot('assets/sprites/');
 loadSprite('coin', 'coin.png');
 loadSprite('evil-shroom', 'evil-shroom.png');
@@ -29,24 +30,45 @@ loadSprite('pipe-top-left', 'pipe-top-left.png');
 loadSprite('pipe-top-right', 'pipe-top-right.png');
 loadSprite('pipe-bottom-left', 'pipe-bottom-left.png');
 loadSprite('pipe-bottom-right', 'pipe-bottom-right.png');
+// Level 2 related sprites
+loadSprite('blue-block', 'blue-block.png');
+loadSprite('blue-brick', 'blue-brick.png');
+loadSprite('blue-steel', 'blue-steel.png');
+loadSprite('blue-evil-shroom', 'blue-evil-shroom.png');
+loadSprite('blue-surprise', 'blue-surprise.png');
 
 scene('game', ({ level, score }) => {
   // Setup layers
   layers(['bg', 'obj', 'ui'], 'obj');
 
-  const map = [
-    '                                         ',
-    '                                         ',
-    '                                         ',
-    '                                         ',
-    '                                         ',
-    '                                         ',
-    '                                         ',
-    '     %   =*=%=                           ',
-    '                                         ',
-    '                            -+           ',
-    '                     ^   ^  ()           ',
-    '===============================    ======',
+  const maps = [
+    [
+      '                                         ',
+      '                                         ',
+      '                                         ',
+      '                                         ',
+      '                                         ',
+      '                                         ',
+      '                                         ',
+      '     %   =*=%=                           ',
+      '                                         ',
+      '                            -+           ',
+      '                     ^   ^  ()           ',
+      '===============================    ======',
+    ],
+    [
+      '?                                         ?',
+      '?                                         ?',
+      '?                                         ?',
+      '?                                         ?',
+      '?                                         ?',
+      '?     @@@@@@@                             ?',
+      '?                             x x         ?',
+      '?                           x x x         ?',
+      '?                         x x x x  x    -+?',
+      '?              z  z     x x x x x  x    ()?',
+      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+    ],
   ];
 
   const levelCfg = {
@@ -63,9 +85,14 @@ scene('game', ({ level, score }) => {
     '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
     '^': [sprite('evil-shroom'), solid(), 'dangerous'],
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
+    '!': [sprite('blue-block'), solid(), scale(0.5)],
+    '?': [sprite('blue-brick'), solid(), scale(0.5)],
+    'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
+    '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
+    'x': [sprite('blue-steel'), solid(), scale(0.5)],
   };
 
-  const gameLevel = addLevel(map, levelCfg);
+  const gameLevel = addLevel(maps[level], levelCfg);
 
   const scoreLabel = add([
     text(score),
@@ -126,7 +153,6 @@ scene('game', ({ level, score }) => {
     d.move(-ENEMY_SPEED, 0);
   });
 
-
   player.action(() => {
     camPos(player.pos);
     if (player.pos.y >= FALL_DEATH) {
@@ -172,10 +198,9 @@ scene('game', ({ level, score }) => {
     }
   });
 
-
   player.collides('pipe', () => {
     keyPress('down', () => {
-      go('game', { level: level + 1, score: scoreLabel.value });
+      go('game', { level: (level + 1) % maps.length, score: scoreLabel.value });
     });
   });
 
