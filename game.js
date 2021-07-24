@@ -83,13 +83,13 @@ scene('game', ({ level, score }) => {
     ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
     '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
     '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
-    '^': [sprite('evil-shroom'), solid(), 'dangerous'],
+    '^': [sprite('evil-shroom'), solid(), 'dangerous', body()],
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
     '!': [sprite('blue-block'), solid(), scale(0.5)],
     '?': [sprite('blue-brick'), solid(), scale(0.5)],
-    'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
+    z: [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous', body()],
     '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
-    'x': [sprite('blue-steel'), solid(), scale(0.5)],
+    x: [sprite('blue-steel'), solid(), scale(0.5)],
   };
 
   const gameLevel = addLevel(maps[level], levelCfg);
